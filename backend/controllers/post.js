@@ -5,12 +5,11 @@ const fs = require('fs');
 /*********************** POST ********************************/
 
 exports.createPost = (req, res) => {
-    const newPost = {
-        titre: req.body.titre,
-        contenu: req.body.contenu,
-        image: `${req.protocol}://${req.get('host')}/images/posts/${req.file.filename}`,
-        UserId: req.body.userId
-    }
+    const postObject = JSON.parse(req.body.post);
+    const newPost = req.file ? {
+        ...postObject,
+        image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : {...postObject};
     Post.create(newPost)
     .then(() => res.status(201).json({message: 'Post crée !'}))
     .catch(error => res.status(400).json(error));
@@ -29,42 +28,59 @@ exports.getAllPost = (req, res) => {
             }, {
                 model: Comment,
                 attributes: ['id', 'contenu', 'createdAt', 'updatedAt'],
+                include: [{model: User, attributes: ['id', 'nom', 'prenom', 'image']}],
+                required: false
+            }, {
+                model: Like_post,
+                attributes: ['createdAt', 'updatedAt', 'isLike'],
+                include: [{model: User, attributes: ['id', 'nom', 'prenom', 'image']}],
                 required: false
             }
+
         ],
-        attributes: ['id', 'titre', 'image', 'contenu', 'createdAt', 'updatedAt']
+        attributes: ['id', 'UserId', 'image', 'contenu', 'createdAt', 'updatedAt']
     })
     .then(posts => res.status(200).json(posts))
     .catch(error => res.status(400).json(error));
 };
 
-// exports.getOnePost = (req, res) => {
-//     Post.findOne({
-//         include: [
-//             {
-//                 model: User,
-//                 attributes: ['nom', 'prenom', 'image']
-//             }
-//         ],
-//         where: {
-//             id: req.params.id
-//         },
-//         attributes: ['id', 'titre', 'contenu', 'createdAt', 'updatedAt']
-//     })
-//     .then(post => res.status(200).json(post))
-//     .catch(error => res.status(400).json(error));
-// };
+exports.getOnePost = (req, res) => {
+    Post.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            {
+                model: User,
+                attributes: ['nom', 'prenom', 'image'],
+                required: true
+            }, {
+                model: Comment,
+                attributes: ['id', 'contenu', 'createdAt', 'updatedAt'],
+                include: [{model: User, attributes: ['nom', 'prenom', 'image']}],
+                required: false
+            }, {
+                model: Like_post,
+                attributes: ['createdAt', 'updatedAt', 'isLike'],
+                include: [{model: User, attributes: ['id', 'nom', 'prenom', 'image']}],
+                required: false
+            }
+
+        ],
+        attributes: ['id', 'UserId', 'contenu', 'image', 'createdAt', 'updatedAt']
+    })
+    .then(post => res.status(200).json(post))
+    .catch(error => res.status(400).json(error));
+};
 
 exports.updatePost = (req, res) => {
     const postObject = req.file ? {
-        titre: req.body.titre,
         contenu: req.body.contenu,
-        image: `${req.protocol}://${req.get('host')}/images/posts/${req.file.filename}`
+        image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : {...req.body};
     Post.update(postObject, {
         where: {
-            id: req.params.id,
-            UserId: req.body.userId
+            id: req.params.id
         }
     })
     .then(() => res.status(201).json({message: 'Post modifié !'}))
@@ -72,9 +88,9 @@ exports.updatePost = (req, res) => {
 };
 
 exports.deletePost = (req, res) => {
-    Post.findOne({id: req.params.id})
+    Post.findOne({where: {id: req.params.id}})
     .then(my_post => {
-        const filename = my_post.imageUrl.split('/images/posts/')[1];
+        const filename = my_post.image.split('/images/')[1];
         fs.unlink(`images/${filename}`, () => {
             Post.destroy({where: {id: req.params.id}})
             .then(() => res.status(200).json({message: "Post supprimé !"}))
@@ -87,22 +103,12 @@ exports.deletePost = (req, res) => {
 exports.likeOrNot = (req, res) => {
     if(req.body.like == 1) {
         const like = {
+            isLike: req.body.like,
             UserId: req.body.userId,
             PostId: req.params.id
         };
         Like_post.create(like)
-        .then(() => {
-            Post.update({
-                isLike: req.body.like
-            }, {
-                where: {
-                    id: req.params.id,
-                    UserId: req.body.userId
-                }
-            })
-            .then(() => res.status(201).json({message: 'Utilisateur a liké !'}))
-            .catch(error => res.status(400).json({error}));
-        })
+        .then(() => res.status(201).json({message: 'Utilisateur a liké !'}))
         .catch(error => res.status(400).json({error}));
     } else if(req.body.like == 0){
         Like_post.destroy({
@@ -111,18 +117,8 @@ exports.likeOrNot = (req, res) => {
                 PostId: req.params.id
             }
         })
-        .then(() => {
-            Post.update({
-                isLike: req.body.like
-            }, {
-                where: {
-                    id: req.params.id,
-                    UserId: req.body.userId
-                }
-            })
-            .then(() => res.status(201).json({message: 'Utilisateur a enlevé son like !'}))
-            .catch(error => res.status(400).json({error}));
-        })
+        .then(() => res.status(201).json({message: 'Utilisateur a enlevé son like !'}))
+        .catch(error => res.status(400).json({error}));
     } else {
         return res.status(400).json({error : 'Attention pas de like supérieur à 1'});
     }
@@ -140,7 +136,7 @@ exports.getLikesPost = (req, res) => {
             PostId: req.params.id
         }
     })
-    .then(postLike => res.status(201).json(postLike))
+    .then(postLike => res.status(200).json(postLike))
     .catch(error => res.status(400).json(error));
 };
 
@@ -149,7 +145,7 @@ exports.getLikesPost = (req, res) => {
 exports.createComment = (req, res) => {
     const newComment = {
         contenu: req.body.contenu,
-        UserId: req.body.userId,
+        UserId: req.body.UserId,
         PostId: req.params.id
     };
     Comment.create(newComment)
@@ -157,23 +153,33 @@ exports.createComment = (req, res) => {
     .catch(error => res.status(400).json(error));
 };
 
+exports.getOneComment = (req, res) => {
+    Comment.findOne({
+        where: {
+            id: req.params.idComment,
+            PostId: req.params.idPost
+        }
+    })
+    .then(comment => res.status(200).json(comment))
+    .catch(error => res.status(400).json(error));
+}
+
 exports.getAllComment = (req, res) => {
-    Post.findAll({
+    Comment.findAll({
+        order: [
+            ['createdAt', 'DESC']
+        ],
         include: [
             {
                 model: User,
-                attributes: ['nom', 'prenom', 'image'],
+                attributes: ['id', 'nom', 'prenom', 'image'],
                 required: true
-            }, {
-                model: Comment,
-                attributes: ['id', 'contenu', 'createdAt', 'updatedAt'],
-                required: false
             }
         ],
         where: {
-            id: req.params.id
+            PostId: req.params.id
         },
-        attributes: ['id', 'titre', 'contenu', 'createdAt', 'updatedAt']
+        attributes: ['id', 'UserId', 'contenu', 'createdAt', 'updatedAt']
     })
     .then(comments => res.status(201).json(comments))
     .catch(error => res.status(400).json(error));

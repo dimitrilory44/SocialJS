@@ -11,14 +11,11 @@ module.exports = {
       UserId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         references: {
           model: 'Users',
           key: 'id'
         }
-      },
-      titre: {
-        allowNull: false,
-        type: Sequelize.STRING
       },
       image: {
         allowNull: true,
@@ -32,11 +29,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      },
-      isLike: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN,
-        defaultValue: 0
       },
       updatedAt: {
         allowNull: false,

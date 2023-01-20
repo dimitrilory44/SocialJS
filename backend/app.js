@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const { sequelize } = require('./models/index');
 const path = require('path');
+const winston = require('./middleware/log');
+const morgan = require('morgan');
 
 const helmet = require('helmet');
 
@@ -23,6 +25,9 @@ app.use(express.json());
 
 app.use(helmet());
 
+// Nous utilisons morgan pour enregistrer notre transformation express
+app.use(morgan('combined', { stream: winston.stream }));
+
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 const testConnectionDB = async () => {
@@ -37,7 +42,7 @@ const testConnectionDB = async () => {
 testConnectionDB();
 
 app.get('/api', (req, res) => {
-    res.json({title: 'Bienvenue sur mon API REST Groupomania'});
+  res.json({title: 'Bienvenue sur mon API REST Groupomania'});
 });
 
 // Authentification de l'utilisateur

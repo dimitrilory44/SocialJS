@@ -1,0 +1,10 @@
+@import '../../../sass/utils/variables';
+
+.erreur-container {
+    text-align: center; 
+    font-weight: bold;
+
+    .erreur {
+        color:$couleur-primaire;
+    }
+}

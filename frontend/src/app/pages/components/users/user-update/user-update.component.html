@@ -1,0 +1,31 @@
+<div class="dialog-header">
+    <h1 mat-dialog-title>Modifie tes coordonnées</h1>
+    <span class="example-spacer"></span>
+    <button mat-icon-button [mat-dialog-close]="true">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-divider></mat-divider>
+<mat-dialog-content class="mat-typography dialog-content">
+    <form [formGroup]="updateUser" (ngSubmit)="onSubmitUser()">
+        <h4 class="message">Choisir une image avec l'exemple de dimension suivante : 1000x1000</h4>
+        <div class="file-container">
+            <div class="hint">Select your file</div>
+            <button mat-button>
+                <input type="file" (change)="onSelectFile($event)" formControlName="image"/>
+                <mat-icon class="icon-field">add_a_photo</mat-icon>
+            </button>
+        </div>
+        <div class="image-preview" *ngIf="url">
+            <img [src]="url" alt="image" alt="img-preview" width="100">
+        </div>
+        <mat-form-field class="field-content" appearance="fill">
+            <mat-label>Telephone</mat-label>
+            <span matPrefix>+33 &nbsp;</span>
+            <input type="tel" matInput placeholder="XX-XX-XX-XX-XX" formControlName="telephone">
+        </mat-form-field>
+        <mat-dialog-actions align="end">
+            <button mat-button [mat-dialog-close]="true" type="submit" [disabled]="!url">Modifier</button>
+        </mat-dialog-actions>
+    </form>
+</mat-dialog-content>

@@ -1,0 +1,19 @@
+.dialog-header {
+    display: flex;
+}
+
+.dialog-content {
+    display: flex; 
+    justify-content: center; 
+    flex-direction:column; 
+    text-align:center;
+    overflow: hidden;
+}
+
+.post__image {
+    width: 100%;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}

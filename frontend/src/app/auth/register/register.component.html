@@ -1,0 +1,77 @@
+<div class="container registerPage">
+    <div class="registerPageLogo">
+        <img src="../../assets/icon.svg" alt="img-groupomania" width="200" height="200">
+        <h1 class="title">GROUPOMANIA</h1>
+        <h2>Votre nouveau réseau d'entreprise</h2>
+    </div>
+    <div class="register container">
+        <h2 class="title-inscription">Inscription</h2>
+        <form class="form-auth" [formGroup]="registerForm" (ngSubmit)="onSubmitRegister()">
+            <mat-form-field class="field-auth field-register" appearance="outline">
+                <mat-label for="nom">
+                    <mat-icon>person</mat-icon>
+                    Saisir votre nom
+                </mat-label>
+                <input type="text" name="nom" matInput formControlName="nom">
+                <mat-error *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+                    <div *ngIf="f.nom.errors.required"><strong>Nom</strong> est obligatoire</div>
+                </mat-error>  
+            </mat-form-field>
+            <mat-form-field class="field-auth field-register" appearance="outline">
+                <mat-label for="prenom">
+                    <mat-icon>person</mat-icon>
+                    Saisir votre prenom
+                </mat-label>
+                <input type="text" name="prenom" matInput formControlName="prenom">
+                <mat-error *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+                    <div *ngIf="f.prenom.errors.required"><strong>Prenom</strong> est obligatoire</div>
+                </mat-error> 
+            </mat-form-field>
+            <mat-form-field class="field-auth field-register" appearance="outline">
+                <mat-label for="email">
+                    <mat-icon>email</mat-icon>
+                   Saisir votre email
+                </mat-label>
+                <input type="text" name="email" matInput formControlName="email">
+                <mat-error *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required"><strong>Email</strong> est obligatoire</div>
+                    <div *ngIf="f.email.errors.pattern"><strong>Email</strong> must be a valid email address</div>
+                </mat-error> 
+            </mat-form-field>    
+            <mat-form-field class="field-auth field-register" appearance="outline">
+                <mat-label for="password">
+                    <mat-icon>lock</mat-icon>
+                    Saisir un mot de passe
+                </mat-label>
+                <input type="password" name="password" matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required"><strong>Password</strong> est obligatoire</div>
+                    <div *ngIf="f.password.errors.minlength"><strong>Password</strong> doit contenir 6 characters minimum</div>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="field-auth field-register" appearance="outline">
+                <mat-label for="confirmPassword">
+                    <mat-icon>lock</mat-icon>
+                    Saisir à nouveau votre mot de passe
+                </mat-label>
+                <input type="password" name="confirmPassword" matInput [type]="hide2 ? 'confirmPassword' : 'text'" formControlName="confirmPassword">
+                <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide2">
+                    <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                    <div *ngIf="f.confirmPassword.errors.required"><strong>Confirmer le mot de passe</strong> est obligatoire</div>
+                    <div *ngIf="f.confirmPassword.errors.mustMatch"><strong>Passwords</strong> must match</div>
+                </mat-error>
+            </mat-form-field>
+			<mat-checkbox formControlName="isAdmin" *ngIf="!checkAdmin">Administrateur</mat-checkbox>
+            <div class="action_auth">
+                <button mat-raised-button class="button" type="submit">S'INSCRIRE</button>
+                <mat-divider></mat-divider>
+                <p>Vous avez un compte ? <strong><a routerLink="/login">Connectez-vous</a></strong></p>
+            </div>
+        </form>
+    </div>
+</div>

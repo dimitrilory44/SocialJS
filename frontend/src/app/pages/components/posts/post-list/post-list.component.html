@@ -1,0 +1,13 @@
+<!-- Gestion erreur client -->
+<error-client [errorClient]="errorMessage" *ngIf="errorMessage"></error-client>
+
+<section class="container posts" *ngIf="postList?.length > 0; else elseBlock">
+    <post *ngFor="let post of postList; let i = index"
+          [post]="post" [errorMessage]="errorMessage">
+    </post>
+</section>
+<ng-template #elseBlock>
+  <div class="no-posts">
+    <h1 class="message-post">Pas de post pour l'instant</h1>
+  </div>
+</ng-template>

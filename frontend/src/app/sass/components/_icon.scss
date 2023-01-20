@@ -1,0 +1,50 @@
+.avatar {
+    border-radius: 50%;
+}
+
+.avatar-mini {
+    max-width: 25px;
+}
+
+.icon-field {
+    color: $couleur-secondaire;
+}
+
+.icon {
+    color: $couleur-primaire!important;
+}
+
+.icon-file {
+    color: $couleur-primaire!important;
+}
+
+.icon-sent {
+    color: $couleur-primaire!important;
+}
+
+.icon-delete {
+    color: $couleur-primaire!important;
+}
+
+.icon-comment {
+    margin-left: 10px;
+    color:$couleur-secondaire!important;
+}
+
+.icon-like {
+    margin-left: 10px;
+}
+
+.icon-list-like {
+    color:white; 
+    font-size: 16px; 
+    margin-bottom: 16px;
+}
+
+.like {
+    color: #0d8bf0;
+}
+
+.dislike {
+    color: $couleur-secondaire;
+}

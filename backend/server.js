@@ -13,6 +13,7 @@ const normalizePort = val => {
   return false;
 };
 const port = normalizePort(process.env.PORT || '3000');
+
 app.set('port', port);
 
 const errorHandler = error => {
@@ -30,12 +31,29 @@ const errorHandler = error => {
       console.error(bind + ' is already in use.');
       process.exit(1);
       break;
-    default:
-      throw error;
-  }
+      default:
+        throw error;
+      }
 };
 
 const server = http.createServer(app);
+
+const io = require('socket.io')(server, {
+  cors: {origin : '*'}
+});
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+
+  socket.on('message', (message) => {
+    console.log(message);
+    io.emit('message', message);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('a user disconnected!');
+  });
+});
 
 server.on('error', errorHandler);
 server.on('listening', () => {

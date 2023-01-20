@@ -1,0 +1,40 @@
+<app-header *ngIf="!errorServeur"></app-header>
+
+<main>
+    <error-client [errorClient]="errorMessage" *ngIf="errorMessage"></error-client>
+    <error-serveur [error]="errorServeur" *ngIf="errorServeur"></error-serveur>
+    <section id="profil-user" *ngIf="!errorServeur">
+        <div class="profil">
+            <div class="img-profil" *ngIf="image == null">
+                <img src="../../../../assets/guest.png" class="avatar" alt="img-guest" width="200">
+            </div>
+            <div class="img-profil" *ngIf="image">
+                <img [src]="image" class="avatar" alt="img-guest" width="200">
+            </div>  
+            <h1 class="nom-profil">{{my_user?.prenom}} {{my_user?.nom}}</h1>
+            <div class="coordonnees">
+                <div class="coordonnees__position">
+                    <button mat-icon-button (click)="gotoMail()" class="icon-sent">
+                        <mat-icon>email</mat-icon>
+                    </button>
+                    <span>{{email}}</span>
+                </div>
+                <div class="coordonnees__position">
+                    <button mat-icon-button (click)="gotoTel()">
+                        <mat-icon>phone</mat-icon>
+                    </button>
+                    <span>{{telephone}}</span>
+                </div>
+            </div>
+            <div class="profil-actions">
+                <button mat-button color="warn" (click)="deleteUser(user.userId)">Supprimer votre compte</button>
+                <button mat-button color="primary" (click)="openDialog(my_user)">Modifiez votre compte</button>
+            </div>
+            <button mat-flat-button color="primary" class="showPost" (click)="showPost($event, user.userId)">
+                Voir les posts associés
+            </button>
+        </div>
+    </section>
+</main>
+
+<app-footer *ngIf="!errorServeur"></app-footer>

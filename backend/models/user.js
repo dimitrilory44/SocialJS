@@ -9,9 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.User.hasMany(models.Post);
-      models.User.hasMany(models.Comment);
-      models.User.hasMany(models.Like_post);
+      models.User.hasMany(models.Post, {onDelete: 'CASCADE'});
+      models.User.hasMany(models.Comment, {onDelete: 'CASCADE'});
+      models.User.hasMany(models.Like_post, {onDelete: 'CASCADE'});
     }
   };
   User.init({
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     nom: DataTypes.STRING,
     prenom: DataTypes.STRING,
     image: DataTypes.STRING,
-    description: DataTypes.STRING,
+    telephone: DataTypes.STRING,
     isAdmin: DataTypes.BOOLEAN
   }, {
     sequelize,

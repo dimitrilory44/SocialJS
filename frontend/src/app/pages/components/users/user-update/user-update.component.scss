@@ -1,0 +1,40 @@
+@import '../../../../sass/utils/variables';
+
+.dialog-header {
+    display: flex;
+    .example-spacer {
+        flex: 1 1 auto;
+    }
+}
+
+.dialog-content {
+    display: flex; 
+    justify-content: center; 
+    flex-direction:column; 
+    text-align:center; 
+    margin-top: 20px; 
+    overflow: hidden;
+
+    .message {
+        color: $couleur-secondaire;
+    }
+
+    .file-container {
+        display: flex; 
+        align-items:center; 
+        margin-bottom: 20px;
+        
+        .hint {
+            font-size: 14px;
+            line-height: 14px;
+            transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+            color: $couleur-secondaire; 
+        }
+    }
+
+    .image-preview {
+        width: 100%; 
+        margin-bottom: 20px;
+    }
+    
+}

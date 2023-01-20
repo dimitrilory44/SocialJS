@@ -1,0 +1,62 @@
+.form-search {
+    // margin-left: 10px;
+    background-color: #ebedf0;
+    border-radius: 20px;
+    width: 100%;
+    display: flex;
+    padding: 5px;
+}
+
+.field-auth {
+    display: flex!important;
+    flex-direction: column!important;
+    justify-content: center!important;
+}
+
+.form-header {
+    background-color: #e0e0e0;
+    width: 225px;
+}
+
+.form-autocomplete {
+    width: 300px!important;
+}
+
+.spacing {
+    margin-left: 15px!important;
+}
+
+textarea {
+    border: none;
+    background-color: transparent;
+    width: 100%;
+}
+
+input[type="text"] {
+    border: none;
+    background-color: transparent;
+}
+
+.input-header {
+    width: 300px;
+}
+
+input[type="file"] {
+    left: -5px;
+    opacity: 0;
+    position: absolute;
+    top: 8px;
+}
+
+.field-form {
+    margin-left: 20px; 
+    width: 100%;
+}
+
+.field-content {
+    width: 100%;
+}
+
+input:focus, :hover{
+    outline: none;
+}

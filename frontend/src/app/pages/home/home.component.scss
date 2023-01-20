@@ -1,0 +1,27 @@
+#createPost {
+    margin: 20px auto;
+}
+
+.header__spacing {
+    display: flex; 
+    flex-direction: column;
+    margin-bottom: 20px;
+    
+    .avatar--contenu {
+        display: flex; 
+        flex-direction: row; 
+        width: 100%;
+    }
+}
+
+.new-post {
+    &__image {
+        width: 100%; 
+        margin: 20px auto;
+    }
+
+    &__detail {
+        margin-left: 10px; 
+        color: grey;
+    }
+}

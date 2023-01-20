@@ -1,0 +1,40 @@
+
+
+.loader-container {
+    margin: 15% auto!important;
+    
+    .loader {
+        display:flex; 
+        flex-direction: column; 
+        justify-content:center; 
+        align-items:center;
+    }
+    
+    .animation-point {
+        display: flex; 
+        align-items: center; 
+        justify-content:center;
+    
+        .point {
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            background-color: #76859b;
+            display: inline-block;
+            margin: .3rem;
+            animation: scaling 2.5s ease-in-out infinite;
+        }
+        
+        div.point:nth-child(0) {
+            animation-delay: 0.5s;
+        }
+        
+        div.point:nth-child(1) {
+            animation-delay: 1s;
+        }
+        
+        div.point:nth-child(2) {
+            animation-delay: 2.5s;
+        }
+    }
+}

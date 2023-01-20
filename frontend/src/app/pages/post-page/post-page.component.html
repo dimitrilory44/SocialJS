@@ -1,0 +1,16 @@
+<app-header *ngIf="!errorServeur"></app-header>
+
+<main>
+    <error-client [errorClient]="errorMessage" *ngIf="errorMessage"></error-client>
+    <error-serveur [error]="errorServeur" *ngIf="errorServeur"></error-serveur>
+    <div class="goBack" *ngIf="!errorServeur">
+        <a href="javascript:history.back()" mat-icon-button>
+            <mat-icon>keyboard_arrow_left</mat-icon>
+        </a>
+    </div>
+    <section id="post" class="container" *ngIf="!errorServeur">
+        <post [post]="post" [userLink]="my_user" [isPost]="isPost" [commentsPost]="commentList" *ngIf="post"></post>
+    </section>
+</main>
+
+<app-footer *ngIf="!errorServeur"></app-footer>

@@ -1,0 +1,29 @@
+header {
+    position: fixed; 
+    width: 100%; 
+    top:0; 
+    z-index: 1;
+
+    .toolbar {
+        background-color: white;
+        box-shadow: 0 0 10px 0 rgb(0 0 0 / 30%);
+        display:flex; 
+        justify-content: space-between;
+    }
+
+    .link-home {
+        text-decoration: none; 
+        display: flex; 
+        justify-content: center; 
+        align-items:center;
+    }
+    
+    .chip-position {
+        margin-left: 15px;
+    }
+}
+
+.form-autocomplete-img {
+    vertical-align: middle;
+    margin-right: 8px;
+}

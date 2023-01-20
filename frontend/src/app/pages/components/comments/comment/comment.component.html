@@ -1,0 +1,42 @@
+<div class="comment__list">
+    <img class="avatar" [src]="comment?.User?.image" alt="" width="40" height="40" *ngIf="comment?.User?.image">
+    <img class="avatar" src="../../../../assets/guest.png" alt="" width="40" height="40" *ngIf="comment?.User?.image == null">
+    <div class="comment__description" *ngIf="!isComment">
+        <div class="comment__decoration">
+            <div class="comment__author">
+                {{comment.User.prenom}}
+                {{comment.User.nom}}
+            </div>
+            {{comment.contenu}}
+        </div>
+        <p class="comment__createdAt">{{comment.createdAt | date:'dd/MM/yyyy HH:mm':'UTC+2'}}</p>
+    </div>
+    <form [formGroup]="updateCommentaire" (ngSubmit)="updateComment(comment?.id)">
+        <div class="comment__description" *ngIf="isComment">
+            <div class="comment__decoration comment__update">
+                <div class="comment__author">
+                    {{auteur.prenom}} {{auteur.nom}}
+                    <div class="form-search">
+                        <textarea type="text" formControlName="contenu" class="comment__input"></textarea>
+                    </div>
+                </div>
+                <button mat-icon-button type="submit">
+                    <mat-icon class="icon-sent">send</mat-icon>
+                </button>
+            </div>
+        </div>
+    </form>
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu modification commentaire" *ngIf="user.userId == comment.UserId && !isComment">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openComment($event, comment?.id)">
+            <mat-icon>edit</mat-icon>
+            <span>Modifier commentaire</span>
+        </button>
+        <button mat-menu-item (click)="deleteComment(comment?.id)">
+            <mat-icon class="icon-delete">delete</mat-icon>
+            <span>Supprimer commentaire</span>
+        </button>
+    </mat-menu>
+</div>

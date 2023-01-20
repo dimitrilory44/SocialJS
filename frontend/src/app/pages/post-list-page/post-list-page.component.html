@@ -1,0 +1,36 @@
+<app-header *ngIf="!errorServeur"></app-header>
+
+<main>
+    <error-serveur [error]="errorServeur" *ngIf="errorServeur"></error-serveur>
+    <div class="goBack" *ngIf="!errorServeur">
+        <a href="javascript:history.back()" mat-icon-button>
+            <mat-icon>keyboard_arrow_left</mat-icon>
+        </a>
+    </div>
+    <section id="post-List" class="container" *ngIf="data">
+        <div class="image-container" *ngIf="image == null">
+            <img src="../../../../assets/guest.png" class="avatar" alt="image-profil" width="200">
+        </div>
+        <div class="image-container" *ngIf="image">
+            <img [src]="image" class="avatar" alt="image-profil" width="200">
+        </div>
+        <h1 class="nom-profil">{{prenom}} {{nom}}</h1>
+        <div class="coordonnees">
+            <div class="mail">
+                <button mat-icon-button (click)="gotoMail()" class="icon-sent">
+                    <mat-icon>email</mat-icon>
+                </button>
+                <span class="mail-intitule">{{email}}</span>
+            </div>
+            <div class="telephone">
+                <button mat-icon-button (click)="gotoTel()">
+                    <mat-icon>phone</mat-icon>
+                </button>
+                <span class="telephone-intitule">{{telephone}}</span>
+            </div>
+        </div>
+    </section>
+    <post-list [postList]="postByUser"></post-list>
+</main>
+
+<app-footer *ngIf="!errorServeur"></app-footer>

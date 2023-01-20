@@ -1,12 +1,13 @@
 const db = require('../models');
-const { User, Post, Comment } = db.sequelize.models;
+const { User, Post, Comment, Like_post } = db.sequelize.models;
+const fs = require('fs');
 
 exports.getAllUser = (req, res) => {
     User.findAll({
         where: {
             isAdmin: 0
         },
-        attributes: ['id','email', 'nom', 'prenom', 'image', 'description']
+        attributes: ['id','email', 'nom', 'prenom', 'image', 'telephone']
     })
     .then(users => res.status(200).json(users))
     .catch(error => res.status(400).json(error))
@@ -21,60 +22,111 @@ exports.getOneUser = (req, res) => {
             nom: user.nom,
             prenom: user.prenom,
             image: user.image,
-            description: user.description,
+            telephone: user.telephone,
             isAdmin: user.isAdmin 
         })
     }).catch(error => res.status(400).json(error));
 };
 
 exports.updateUser = (req, res) => {
-    const userObject = req.file ? {
-        email: req.body.email,
-        nom: req.body.nom,
-        prenom: req.body.prenom,
-        image: `${req.protocol}://${req.get('host')}/images/users/${req.file.filename}`
-    } : {...req.body};
-    User.update(userObject, {
-        where: {
-            id: req.params.id
+    User.findOne({where: {id: req.params.id}})
+    .then(my_user => {
+        if(my_user.image) {
+            const filename = my_user.image.split('/images/')[1];
+            fs.unlink(`images/${filename}`, () => {
+                const user = JSON.parse(req.body.user);
+                const userObject = req.file ? {
+                    ...user,
+                    image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                } : {...user};
+                User.update(userObject, {
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                .then(() => res.status(201).json({message: 'Utilisateur modifié !'}))
+                .catch(error => res.status(400).json(error));
+            });
         }
+        const user = JSON.parse(req.body.user);
+        const userObject = req.file ? {
+            ...user,
+            image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } : {...user};
+        User.update(userObject, {
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(() => res.status(201).json({message: 'Utilisateur modifié !'}))
+        .catch(error => res.status(400).json(error));
     })
-    .then(() => res.status(201).json({message: 'Utilisateur modifié !'}))
     .catch(error => res.status(400).json(error));
 };
 
 exports.deleteUser = (req, res) => {
-    User.findOne({id: req.params.id})
+    User.findOne({where: {id: req.params.id}})
     .then(my_user => {
-        const filename = my_user.imageUrl.split('/images/users/')[1];
-        fs.unlink(`images/${filename}`, () => {
-            User.destroy({where: {id: req.params.id}})
-            .then(() => res.status(200).json({message: "Utilisateur supprimé !"}))
-            .catch(error => res.status(400).json(error));
-        });
+        if(my_user.image) {
+            const filename = my_user.image.split('/images/')[1];
+            fs.unlink(`images/${filename}`, () => {
+                User.destroy({where: {id: req.params.id}})
+                .then(() => res.status(200).json({message: "Utilisateur supprimé !"}))
+                .catch(error => res.status(400).json(error));
+            });
+        }
+        User.destroy({where: {id: req.params.id}})
+        .then(() => res.status(200).json({message: "Utilisateur supprimé !"}))
+        .catch(error => res.status(400).json(error));
+
     })
     .catch(error => res.status(400).json(error));
 };
 
 exports.getPostByUser = (req, res) => {
-    User.findAll({
-        include: [
-            {
+    if(res !== null) {
+        User.findOne({
+            order: [
+                [{model: Post}, 'createdAt', 'DESC']
+            ],
+            include: [{
                 model: Post,
-                attributes: ['id', 'titre', 'image', 'contenu', 'isLike', 'createdAt', 'updatedAt'],
+                attributes: ['id', 'image', 'contenu', 'UserId', 'createdAt', 'updatedAt'],
                 include: [{
                     model: Comment,
                     attributes: ['id', 'contenu', 'createdAt', 'updatedAt'],
                     required: false
+                }, {
+                    model: User,
+                    attributes: ['id', 'nom', 'prenom', 'image'],
+                    required: false
+                },{
+                    model: Like_post,
+                    attributes: ['createdAt', 'updatedAt', 'isLike'],
+                    include: [{model: User, attributes: ['id', 'nom', 'prenom', 'image']}],
+                    required: false
                 }],
                 required: true
+            }],
+            where: {
+                id: req.params.id
+            },
+            attributes: ['nom', 'prenom', 'image', 'email', 'telephone'],
+        })
+        .then(post => {
+            if(!post) {
+                User.findOne({
+                    where: {
+                        id: req.params.id
+                    },
+                    attributes: ['nom', 'prenom', 'image', 'email', 'telephone']
+                })
+                .then(post => res.status(200).json(post))
+                .catch(error => res.status(400).json(error));
+            } else {
+                res.status(200).json(post)}
             }
-        ],
-        where: {
-            id: req.params.id
-        },
-        attributes: ['nom', 'prenom', 'image'],
-    })
-    .then(posts => res.status(201).json(posts))
-    .catch(error => res.status(400).json(error));
+        )
+        .catch(error => res.status(400).json(error));
+    }
 };

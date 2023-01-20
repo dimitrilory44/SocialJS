@@ -14,18 +14,21 @@ module.exports = (sequelize, DataTypes) => {
       models.Like_post.belongsTo(models.User, {
         foreignKey: {
           allowNull: false
-        }
+        },
+        onDelete: 'CASCADE'
       });
       models.Like_post.belongsTo(models.Post, {
         foreignKey: {
           allowNull: false
-        }
+        },
+        onDelete: 'CASCADE'
       });
     }
   };
   Like_post.init({
     UserId: DataTypes.INTEGER,
-    PostId: DataTypes.INTEGER
+    PostId: DataTypes.INTEGER,
+    isLike: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Like_post',

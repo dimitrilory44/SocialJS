@@ -1,0 +1,24 @@
+@import '../../../../sass/utils/variables';
+
+.message-erreur {
+    margin-top: 50px;
+}
+
+.message {
+    text-align: center; 
+    color:red;
+}
+
+.posts {
+    margin-bottom: 70px;
+}
+
+.no-posts {
+    display:flex; 
+    justify-content:center;
+    color: $couleur-secondaire;
+    
+    .message-post {
+        text-align: center;
+    }
+}

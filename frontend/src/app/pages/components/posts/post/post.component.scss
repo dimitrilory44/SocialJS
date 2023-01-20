@@ -1,0 +1,51 @@
+@import '../../../../sass/utils/variables';
+
+::ng-deep .tooltip-list {
+    white-space: pre-line!important;
+    max-width: 120px;
+}
+
+.post {
+    &__actions {
+        position:absolute; 
+        right:20px; 
+        top:10px; 
+        color:$couleur-secondaire;
+    }
+
+    &__content {
+        margin-bottom: 30px;
+    }
+
+    .comments-bloc {
+        padding-top: 15px;
+    }
+
+    &__like--list {
+        display: flex; 
+        justify-content: space-between;
+
+        .like-container {
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+        }
+    }
+
+    &__like {
+        margin-left: 10px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    &__comment {
+        margin-left: 10px;
+
+        &:hover {
+            cursor: pointer;
+        }
+        color: $couleur-secondaire;
+    }
+}

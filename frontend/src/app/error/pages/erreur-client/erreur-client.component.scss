@@ -1,0 +1,11 @@
+.erreur-client {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+}
+
+.message-client {
+    color:red;
+    text-align:center;
+}

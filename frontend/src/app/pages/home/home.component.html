@@ -1,0 +1,43 @@
+<app-header *ngIf="!errorServeur"></app-header>
+
+<main>
+    <error-client [errorClient]="errorMessage" *ngIf="errorMessage"></error-client>
+    <error-serveur [error]="errorServeur" *ngIf="errorServeur"></error-serveur>
+    <section id="createPost" class="container" *ngIf="!errorServeur">
+        <form [formGroup]="createPost" (ngSubmit)="onSubmit()">
+            <mat-card class="card">
+                <mat-card-header class="card__header header__spacing">
+                    <div class="avatar--contenu">
+                        <div mat-card-avatar *ngIf="image == null">
+                            <img class="avatar" src="../../../../assets/guest.png" alt="img-guest" width="40" height="40">
+                        </div>
+                        <div mat-card-avatar *ngIf="image">
+                            <img class="avatar" [src]="image" alt="img-guest" width="40" height="40">
+                        </div>
+                        <div class="form-search spacing">
+                            <textarea name="contenu" placeholder="Contenu de votre post" formControlName="contenu"></textarea>
+                        </div>
+                    </div>
+                </mat-card-header>
+                <mat-card-content class="card__content" *ngIf="url != null">
+                    <img [src]="url" alt="img-new-post" class="new-post__image">
+                </mat-card-content>
+                <mat-divider></mat-divider>
+                <mat-card-actions class="card__actions">
+                    <button mat-button>
+                        <input type="file" name="image" (change)="onSelectFile($event)" formControlName="image"/>
+                        <mat-icon class="icon-file">add_photo_alternate</mat-icon>
+                        <span class="new-post__detail">Image</span>
+                    </button>
+                    <button mat-button type="submit">
+                        <mat-icon class="icon-sent">send</mat-icon>
+                        <span class="new-post__detail">Publier</span>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </section>
+    <post-list [postList]="posts" [errorServeur]="errorServeur"></post-list>
+</main>
+
+<app-footer *ngIf="!errorServeur"></app-footer>

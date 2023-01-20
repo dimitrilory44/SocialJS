@@ -1,0 +1,33 @@
+.dialog-header {
+    display: flex;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.icon-position-list {
+    position: absolute; 
+    right: 25px;
+}
+
+.dialog-content {
+    position: relative;
+
+    .users-container {
+        display: flex; 
+        align-items:center; 
+        margin-top: 20px;
+
+        .users {
+            margin-left: 20px; 
+            display:flex; 
+            align-items:center; 
+            cursor:pointer;
+
+            .user-nom {
+                margin-left: 5px;
+            }
+        }
+    }
+}

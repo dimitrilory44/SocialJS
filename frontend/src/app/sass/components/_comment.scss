@@ -1,0 +1,59 @@
+.comment {
+    &__opacity {
+        opacity: 0.6;
+    }
+
+    &__new {
+        display: flex; 
+        flex-direction: row; 
+        margin-top: 20px; 
+        margin-bottom: 20px; 
+        width: 100%;
+    }
+
+    &__list {
+        display:flex; 
+        margin-bottom: 10px;
+    }
+    
+    &__input {
+        border: none;
+        background-color: transparent;
+        margin-left: -8px!important;
+        margin-top: -8px;
+    }
+
+    &__description {
+        display:flex; 
+        flex-direction: column;
+    }
+
+    &__decoration {
+        background-color: #ebedf0;
+        border-radius: 18px;
+        display: inline-block;
+        line-height: 16px;
+        width: 100%;
+        margin-left: 10px;
+        min-width: 0;
+        overflow: hidden;
+        padding: 6px 12px 7px 12px;
+    }
+
+    &__author {
+        display:flex; 
+        flex-direction: column;
+        width: 190px;
+        font-weight: bold;
+    }
+
+    &__update {
+        display: flex;
+        width: 100%;
+    }
+
+    &__createdAt {
+        color: grey; 
+        margin-left: 15px!important;
+    }
+}

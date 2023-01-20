@@ -1,0 +1,15 @@
+.erreur-client-container {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+
+    .type-erreur {
+        margin-top: 200px; 
+        color: red;
+    }
+
+    .message-erreur {
+        text-align: center;
+    }
+}

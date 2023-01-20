@@ -1,0 +1,19 @@
+@import '../../../sass/utils/variables';
+
+.erreur-container {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column; 
+    margin-top: 100px;
+
+    .type-erreur {
+        color:$couleur-primaire;
+        text-align:center;
+    }
+
+    .message-erreur {
+        color:$couleur-primaire;
+        text-align:center;
+    }
+}

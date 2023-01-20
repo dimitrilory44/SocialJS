@@ -1,0 +1,43 @@
+#profil-user {
+    display:flex; 
+    justify-content: center;
+}
+
+.profil {
+    display:flex; 
+    margin-top: 20px; 
+    flex-direction: column; 
+    margin-bottom: 30px;
+}
+
+.img-profil {
+    display:flex; 
+    justify-content: center;
+    margin-left: 20px;
+}
+
+.nom-profil {
+    margin-top: 30px;
+    text-align:center;
+}
+
+.coordonnees {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+
+    &__position {
+        margin-bottom: 20px
+    }
+}
+
+.profil-actions {
+    display: flex; 
+    justify-content:center
+}
+
+.showPost {
+    margin-top: 30px;
+}

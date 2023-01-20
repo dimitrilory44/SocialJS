@@ -1,0 +1,22 @@
+@import '../../../../sass/utils/variables';
+
+.progress-bar {
+    position: absolute; 
+    top: -5px;
+}
+
+.position_bar {
+    position: relative;
+}
+
+.comments {
+    overflow-y: auto; 
+    max-height: 200px; 
+    width: 100%; 
+    overflow-x: hidden;
+}
+
+.no-comments {
+    color: $couleur-secondaire; 
+    text-align:center;
+}

@@ -1,0 +1,23 @@
+<div class="dialog-header">
+    <h1 mat-dialog-title>Utilisateurs</h1>
+    <span class="example-spacer"></span>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-divider></mat-divider>
+<mat-dialog-content class="dialog-content">
+    <div *ngFor="let user of users" class="users-container">
+        <img class="avatar" [src]="user?.image" alt="img-guest" width="40" height="40" *ngIf="user?.image">
+        <img class="avatar" src="../../../../../assets/guest.png" alt="img-guest" width="40" height="40" *ngIf="user?.image === null">
+        <div class="users">
+            <a (click)="gotoprofil($event, user?.id)">
+                <span>{{user?.prenom}}</span> 
+                <span class="user-nom">{{user?.nom}}</span>
+            </a>
+            <button mat-icon-button (click)="deleteUser(user?.id)" class="icon-delete icon-position-list">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-dialog-content>

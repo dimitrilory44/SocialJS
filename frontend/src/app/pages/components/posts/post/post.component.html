@@ -1,0 +1,72 @@
+<mat-card class="card">
+  <mat-card-header class="card__header">
+    <div mat-card-avatar *ngIf="post?.User?.image == null">
+      <img class="avatar" src="../../../../assets/guest.png" alt="img-guest" width="40" height="40">
+    </div>
+    <div mat-card-avatar *ngIf="post?.User?.image">
+      <img class="avatar" [src]="post?.User?.image" alt="img-guest" width="40" height="40">
+    </div>
+    <mat-card-title>
+      <a (click)="showPost(post.id)">
+        {{post?.User?.prenom}} {{post?.User?.nom}}
+      </a>
+    </mat-card-title>
+    <mat-card-subtitle>{{post?.createdAt | date:'dd/MM/yyyy HH:mm':'UTC+2'}}</mat-card-subtitle>
+    <button mat-icon-button class="post__actions" [matMenuTriggerFor]="menu" aria-label="Vers menu" *ngIf="user.userId == post?.UserId">
+      <mat-icon>more_horiz</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="openDialog(post)">
+        <mat-icon>edit</mat-icon>
+        <span>Modifier post</span>
+      </button>
+      <button mat-menu-item (click)="deletePost(post.id)" *ngIf="!isPost">
+        <mat-icon class="icon-delete">delete</mat-icon>
+        <span>Supprimer post</span>
+      </button>
+    </mat-menu>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="post__content">{{post?.contenu}}</div>
+    <img mat-card-image *ngIf="post?.image" [src]="post?.image" alt="Photo du post">
+    <div class="post__like--list">
+      <div class="like-container">
+        <button mat-icon-button class="btn--list" 
+                    #tooltip="matTooltip"
+                    [matTooltip]="likeList"
+                    matTooltipClass="tooltip-list"
+                    matTooltipPosition="above">
+          <mat-icon class="icon-list-like">thumb_up</mat-icon>
+        </button>
+        <a class="post__like" (click)="tooltip.toggle(); getLikes(post.id)">
+          <span>{{post?.Like_posts?.length}}</span>
+        </a>
+      </div>
+      <a class="post__comment" (click)="openBottomSheet(post.id)" *ngIf="!isPost">
+        <span>{{post?.Comments?.length}} commentaire(s)</span>
+      </a>
+      <a class="post__comment" *ngIf="isPost">
+        <span>{{post?.Comments?.length}} commentaire(s)</span>
+      </a>
+    </div>
+  </mat-card-content>
+  <div *ngIf="isPost" class="comments-bloc">
+    <comment-list [postId]="post?.id" [comments]="commentsPost" [myUser]="userLink" *ngIf="post"></comment-list>
+    <new-comment [data]="post.id" [findUser]="userLink" *ngIf="isComment"></new-comment>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-card-actions class="card__actions">
+    <button mat-button (click)="onLike(post.id)" *ngIf="post?.Like_posts">
+      <mat-icon [ngStyle]="{'color' : color}" [class.like]="like" [class.dislike]="!like">thumb_up</mat-icon>
+      <span class="icon-like" [ngStyle]="{'color' : color}" [class.like]="like" [class.dislike]="!like">J'aime</span>
+    </button>
+    <button mat-button (click)="openBottomSheet(post.id)" *ngIf="!isPost">
+      <mat-icon class="icon-comment">chat_bubble_outline</mat-icon>
+      <span class="post__comment">Commenter</span>
+    </button>
+    <button mat-button *ngIf="isPost" (click)="showComment()">
+      <mat-icon class="icon-comment">chat_bubble_outline</mat-icon>
+      <span class="post__comment">Commenter</span>
+    </button>
+  </mat-card-actions>
+</mat-card>

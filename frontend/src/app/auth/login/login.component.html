@@ -1,0 +1,41 @@
+<div class="container loginPage">
+    <div class="loginPageLogo">
+        <img src="../../assets/icon.svg" alt="img-groupomania" width="200" height="200">
+        <h1 class="title">GROUPOMANIA</h1>
+        <h2>Votre nouveau réseau d'entreprise</h2>
+    </div>
+    <div class="authentification container">
+        <h2 class="title-login">Se connecter</h2>
+        <form class="form-auth" [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">    
+            <mat-form-field class="field-auth field-content" appearance="outline">
+                <mat-label for="email">
+                    <mat-icon>email</mat-icon>
+                    Votre email
+                </mat-label>
+                <input type="text" name="email" matInput formControlName="email">
+                <mat-error *ngIf="submitted && l.email.errors" class="invalid-feedback">
+                    <div *ngIf="l.email.errors.required"><strong>Email</strong> est obligatoire</div>
+                </mat-error>  
+            </mat-form-field>
+            <mat-form-field class="field-auth field-content" appearance="outline">
+                <mat-label for="password">
+                    <mat-icon>lock</mat-icon>
+                    Votre mot de passe
+                </mat-label>
+                <input type="password" name="password" matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="submitted && l.password.errors" class="invalid-feedback">
+                    <div *ngIf="l.password.errors.required"><strong>Password</strong> est obligatoire</div>
+                </mat-error> 
+            </mat-form-field>
+            <div class="action_auth">
+                <button mat-raised-button class="button-login" type="submit">SE CONNECTER</button>
+                <auth-client [errorClient]="errorMessage" *ngIf="errorMessage != null"></auth-client>
+                <mat-divider></mat-divider>
+                <p>Vous n'avez pas de compte ? <strong><a routerLink="/register">Inscrivez-vous</a></strong></p>
+            </div>
+        </form>
+    </div>
+</div>

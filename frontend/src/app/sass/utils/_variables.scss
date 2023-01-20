@@ -1,0 +1,12 @@
+// Variables couleurs
+$couleur-primaire: red;
+$couleur-background: #fafafa;
+$couleur-secondaire: grey;
+
+// Breakpoints pour responsive
+$breakpoints: (
+    small-mobile: 350px,
+    mobile: 767px,
+    tablette: 1023px,
+    deskstop: 1200px
+);
